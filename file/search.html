@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OpenAI GPT-3 Summarizer</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<h1>OpenAI GPT-3 Summarizer</h1>
+	<p>Type the text you want to summarize below and click "Summarize".</p>
+	<textarea id="textInput" placeholder="Enter text to summarize..."></textarea>
+	<button onclick="summarize()">Summarize</button>
+	<div id="result"></div>
+
+	<script>
+		function summarize() {
+			var input = document.getElementById("textInput").value;
+
+			fetch("/summarize?input=" + encodeURIComponent(input))
+				.then(response => response.json())
+				.then(data => {
+					var resultDiv = document.getElementById("result");
+					resultDiv.innerHTML = `
+						<h2>Summary</h2>
+						<p>${data.summary}</p>
+					`;
+				})
+				.catch(error => {
+					var resultDiv = document.getElementById("result");
+					resultDiv.innerHTML = "<p>An error occurred while summarizing the text.</p>";
+				});
+		}
+	</script>
+</body>
+</html>
